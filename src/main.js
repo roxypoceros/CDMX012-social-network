@@ -1,7 +1,6 @@
 import { Home } from './componets/Home.js';
-import { Home } from './componets/Home.js';
-import { Login } from './componets/Login.js';
 import { Register } from './componets/Register.js';
+import { Login } from './componets/Login.js';
 
 const rootDiv = document.getElementById('root');
 
