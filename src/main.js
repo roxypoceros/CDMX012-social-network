@@ -1,11 +1,14 @@
 import { Home } from './componets/Home.js';
+import { Home } from './componets/Home.js';
+import { Login } from './componets/Login.js';
 import { Register } from './componets/Register.js';
 
 const rootDiv = document.getElementById('root');
 
 const routes = {
   '/': Home,
-'/Register': Register,
+  '/register': Register,
+  '/login': Login,
 };
 
 export const onNavigate = (pathname) => {
@@ -14,6 +17,10 @@ export const onNavigate = (pathname) => {
     pathname,
     window.location.origin + pathname,
   );
+  while (rootDiv.firstChild) {
+    rootDiv.removeChild(rootDiv.firstChild);
+  }
+
   rootDiv.appendChild(routes[pathname]());
 };
 
