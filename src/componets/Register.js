@@ -8,9 +8,16 @@ const auth = getAuth();
 
 export const Register = () => {
   const RegisterDiv = document.createElement('div');
+  RegisterDiv.setAttribute('id', 'RegisterDiv');
+
+  
   const nodoh2 = document.createElement('h2');
   const inputUserName = document.createElement('input');
-  inputUserName.setAttribute('id', 'username');
+  // LABEL USUARIO + LINEA 59
+  // const labelUserName = document.createElement('label');
+  // inputUserName.setAttribute('id', 'username');
+  // labelUserName.setAttribute('for', 'username');
+
   const inputEmail = document.createElement('input');
   inputEmail.setAttribute('id', 'mailregister');
   const inputPassword = document.createElement('input');
@@ -24,7 +31,7 @@ export const Register = () => {
   inputEmail.placeholder = 'Ingresa tu Correo';
   inputPassword.placeholder = 'Ingresa tu Contraseña';
   
-  //Registrar Usuario con Email
+  // Registrar Usuario con Email
   buttonSubmit.addEventListener('click', (e) => {
     let email = document.getElementById('mailregister').value;
     let password = document.getElementById('password').value;
@@ -51,6 +58,11 @@ export const Register = () => {
     onNavigate('/');
   });
   nodoh2.textContent = 'Ingresa tu correo';
+
+  //labelUserName.innerHTML = 'USUARIO';
+
   RegisterDiv.append(nodoh2, inputUserName, inputEmail, inputPassword, buttonSubmit, buttonHome);
+  
+  
   return RegisterDiv;
 };
