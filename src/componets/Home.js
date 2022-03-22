@@ -1,6 +1,5 @@
 import { onNavigate } from "../main.js";
 document.body.style.backgroundColor = '#101010';
-
 export const Home = () => {
   const HomeDiv = document.createElement('div');
   HomeDiv.classList.add('homeDiv');
@@ -13,6 +12,7 @@ export const Home = () => {
   const buttonLogIn = document.createElement('button');
   buttonLogIn.classList.add('buttonLogIn');
   buttonLogIn.textContent = 'Inicia Sesión';
+  buttonLogIn.textContent = 'Iniciar Sesión';
   buttonLogIn.addEventListener('click', () => {
     onNavigate ('/login');
   });
@@ -25,7 +25,7 @@ export const Home = () => {
   nodoh1.textContent = 'Bienvenid@ a la red para actores, directores, productores y más...';
   nodoh1.classList.add('textHome')
   HomeDiv.append(logoDiv, nodoh1, buttonLogIn, buttonSignIn);
-
+  HomeDiv.append(nodoh1, buttonLogIn, buttonSignIn);
   return HomeDiv;
 
 };
