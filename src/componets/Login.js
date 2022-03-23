@@ -24,6 +24,8 @@ export const Login = () => {
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
   });
+
   loginDiv.append(logoDivSmall, nodoh2, labelUserName, inputUser, labelPassword, inputPassword, buttonLogin, buttonHome);
   return loginDiv;
 };
+
