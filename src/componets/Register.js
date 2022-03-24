@@ -60,7 +60,9 @@ export const Register = () => {
     });
 
   //Regresa a Home
-
+  buttonHome.addEventListener('click', () => {
+    onNavigate('/');
+  });
 
 
   RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
