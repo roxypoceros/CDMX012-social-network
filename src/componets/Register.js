@@ -61,18 +61,9 @@ export const Register = () => {
 
   //Regresa a Home
 
-export const Register = () => {
-  const RegisterDiv = document.createElement('div');
-  const nodoh2 = document.createElement('h2');
-  const buttonHome = document.createElement('button');
-  buttonHome.textContent = 'Regresa a Home';
-  buttonHome.addEventListener('click', () => {
-    onNavigate('/');
-  });
 
 
   RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
   
-  RegisterDiv.append(nodoh2, buttonHome);
   return RegisterDiv;
 };
