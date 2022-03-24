@@ -1,0 +1,27 @@
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+
+    body {
+        background-color: #030302;
+        background-image: url ("src/img/foto-silla.jpg");
+    }
+
+    #root {
+        background-image: url("https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");
+        
+    }
+    
+    h1 {
+        color: #FFFFFF;
+        font-family: 'Lexend Giga', sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 2rem;
+        line-height: 44px;
+        letter-spacing: -0.085em;
+    }
+
+  }

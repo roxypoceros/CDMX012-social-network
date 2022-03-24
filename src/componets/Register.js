@@ -7,22 +7,28 @@ const auth = getAuth();
 
 
 export const Register = () => {
+  const logoDivSmall = document.createElement('img');
+  logoDivSmall.classList.add('logoDivSmall');
+  logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
   const RegisterDiv = document.createElement('div');
   RegisterDiv.setAttribute('id', 'RegisterDiv');
+  const labelUserName = document.createElement('h3');
+  labelUserName.textContent = 'USUARIO';
 
-  
   const nodoh2 = document.createElement('h2');
   const inputUserName = document.createElement('input');
-  // LABEL USUARIO + LINEA 59
-  // const labelUserName = document.createElement('label');
-  // inputUserName.setAttribute('id', 'username');
-  // labelUserName.setAttribute('for', 'username');
-
+  inputUserName.setAttribute('id', 'username');
+  const labelEmail = document.createElement('h3');
+  labelEmail.textContent = 'EMAIL';
   const inputEmail = document.createElement('input');
   inputEmail.setAttribute('id', 'mailregister');
+  const labelPassword = document.createElement('h3');
+  labelPassword.textContent = 'CONTRASEÑA';
   const inputPassword = document.createElement('input');
   inputPassword.setAttribute('id', 'password');
+  inputPassword.setAttribute('type', 'password');
   const buttonHome = document.createElement('button');
+  buttonHome.setAttribute('id', 'homeButton');
   const buttonSubmit = document.createElement('button');
   buttonSubmit.setAttribute('id', 'registerButton');
   buttonHome.textContent = 'Regresa a Home';
@@ -54,15 +60,19 @@ export const Register = () => {
     });
 
   //Regresa a Home
+
+export const Register = () => {
+  const RegisterDiv = document.createElement('div');
+  const nodoh2 = document.createElement('h2');
+  const buttonHome = document.createElement('button');
+  buttonHome.textContent = 'Regresa a Home';
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
   });
-  nodoh2.textContent = 'Ingresa tu correo';
 
-  //labelUserName.innerHTML = 'USUARIO';
 
-  RegisterDiv.append(nodoh2, inputUserName, inputEmail, inputPassword, buttonSubmit, buttonHome);
+  RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
   
-  
+  RegisterDiv.append(nodoh2, buttonHome);
   return RegisterDiv;
 };
