@@ -1,9 +1,26 @@
 import { onNavigate } from "../main.js";
-import { firebaseConfig, app, database} from "../firebase.js";
+import { firebaseConfig, app, database } from "../firebase.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 const auth = getAuth();
+/* Para verificar cuenta con vinculo al correo dependiendo del dispositivo
+const actionCodeSettings = {
+  // URL you want to redirect back to. The domain (www.example.com) for this
+  // URL must be in the authorized domains list in the Firebase Console.
+  url: 'http://localhost:3000',
+  // This must be true.
+  handleCodeInApp: true,
+  iOS: {
+    bundleId: 'com.example.ios'
+  },
+  android: {
+    packageName: 'com.example.android',
+    installApp: true,
+    minimumVersion: '12'
+  },
+  dynamicLinkDomain: 'example.page.link'
+};*/
 
 
 export const Register = () => {
@@ -36,36 +53,48 @@ export const Register = () => {
   inputUserName.placeholder = 'Crea tu Nombre de Usuario';
   inputEmail.placeholder = 'Ingresa tu Correo';
   inputPassword.placeholder = 'Ingresa tu Contraseña';
-  
+
   // Registrar Usuario con Email
   buttonSubmit.addEventListener('click', (e) => {
     let email = document.getElementById('mailregister').value;
     let password = document.getElementById('password').value;
     let username = document.getElementById('username').value;
-    
+
     createUserWithEmailAndPassword(auth, email, password, username)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      alert ('user created!');
-      // ...
-    })
+      .then((userCredential) => {
+        const user = userCredential.user;
+        alert('user created!');
+      })
+
+      const configuracion = {
+        url: 'http://localhost:3000'
+      }
+      alert ('bienvenido')
+    /* Para verificar cuenta con vinculo al correo
+    sendSignInLinkToEmail(auth, email, actionCodeSettings)
+      .then(() => {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+        // ...
+      })*/
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert ('error message');
-      // ..
-    })
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert('error message');
+        // ..
+      })
 
-    });
+});
 
-  //Regresa a Home
-  buttonHome.addEventListener('click', () => {
-    onNavigate('/');
-  });
+//Regresa a Home
+buttonHome.addEventListener('click', () => {
+  onNavigate('/');
+});
 
 
-  RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
-  
-  return RegisterDiv;
+RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
+
+return RegisterDiv;
 };

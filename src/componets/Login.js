@@ -8,7 +8,7 @@ export const Login = () => {
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
   const loginDiv = document.createElement('div');
   loginDiv.setAttribute('id', 'loginDiv');
-  const nodoh2 = document.createElement('h2');
+  
   //const inputUser = document.createElement('input');
   //const labelUserName = document.createElement('h3');
   //labelUserName.textContent = 'USUARIO';
@@ -90,7 +90,7 @@ export const Login = () => {
 
   });
 
-  loginDiv.append(logoDivSmall, nodoh2, labelEmail, inputEmail, labelPassword, inputPassword, buttonGmail, buttonLogin, buttonHome);
+  loginDiv.append(logoDivSmall, labelEmail, inputEmail, labelPassword, inputPassword, buttonGmail, buttonLogin, buttonHome);
   return loginDiv;
 
 };
