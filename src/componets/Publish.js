@@ -1,7 +1,6 @@
-import { onNavigate } from "../main.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
+//import { onNavigate } from "../main.js";
 import { publishPost } from "../firebase.js";
+
 
 export const Publish = () => {
     const iconLogo = document.createElement('img');
@@ -25,7 +24,7 @@ export const Publish = () => {
     
     const inputPost = document.createElement('textarea');
     inputPost.classList.add('post');
-    inputPost.setAttribute('id', 'inputPost');
+    inputPost.setAttribute('id', 'inputPost'); 
     inputPost.placeholder = 'Cuéntanos algo...';
 
     centralContainer.appendChild(iconUser);
@@ -40,6 +39,15 @@ export const Publish = () => {
     buttonPublish.addEventListener('click', (e) => {
     const posting = inputPost
     publishPost(posting.value)
+    .then(() => {
+      inputPost.value = ''
+      //console.log('se publicó')
+    })
+    .catch(() => {
+      console.error('no se publicó')
+    })
+//aquí se deberían de obtener los datos de firestore para mandarle el contenido del post a su respectivo usuario
+
   });
   
   /*Regresa a Home
