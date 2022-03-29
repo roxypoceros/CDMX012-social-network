@@ -1,6 +1,5 @@
 import { onNavigate } from "../main.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
 
 
 export const Feed = () => {
