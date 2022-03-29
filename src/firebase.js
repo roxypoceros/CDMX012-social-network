@@ -1,6 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { doc, setDoc, addDoc, getFirestore, Timestamp, collection } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
@@ -15,13 +17,23 @@ export const firebaseConfig = {
   // Initialize Firebase
   export const app = initializeApp(firebaseConfig);
   export const database = getDatabase(app);
+  const db = getFirestore();
+  const auth = getAuth();
 
-/*export const publishPost = (posting) => {
+export const publishPost = async (posting) => {
     //set(ref(database, "posts")), {posting}
     //console.log (posting)
-    setDoc(doc(database, "posts"), {post: posting});
-  }*/
-//https://firebase.google.com/docs/firestore/manage-data/add-data
+    //setDoc(doc(database, "posts"), {post: posting});
+    await addDoc(collection(db, 'posts'),{
+      text: posting,
+      datecreate: Timestamp.now(),
+      dateupdate: Timestamp.now(),
+      email: auth.currentUser.email,
+
+    })
+    
+  }
+/*https://firebase.google.com/docs/firestore/manage-data/add-data
   export const publishPost = doc(database, 'posts');
-  setDoc(publishPost, { post: true });
+  setDoc(publishPost, { post: true });*/
   
