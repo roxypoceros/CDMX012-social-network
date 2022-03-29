@@ -11,7 +11,7 @@ const routes = {
   '/register': Register,
   '/login': Login,
   '/feed': Feed,
-  '/publish': Publish
+  '/publish': Publish,
 };
 
 export const onNavigate = (pathname) => {

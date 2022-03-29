@@ -56,6 +56,7 @@ export const Login = () => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
+        onNavigate('/feed');
         // ...
       }).catch((error) => {
         // Handle Errors here.
@@ -80,6 +81,7 @@ export const Login = () => {
         // Signed in
         const user = userCredential.user;
         alert('User logged');
+        onNavigate('/feed');
         // ...
       })
       .catch((error) => {
