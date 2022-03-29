@@ -2,6 +2,7 @@ import { Home } from './componets/Home.js';
 import { Login } from './componets/Login.js';
 import { Register } from './componets/Register.js';
 import { Feed } from './componets/Feed.js';
+import { Publish } from './componets/Publish.js';
 
 const rootDiv = document.getElementById('root');
 
@@ -10,6 +11,7 @@ const routes = {
   '/register': Register,
   '/login': Login,
   '/feed': Feed,
+  '/publish': Publish
 };
 
 export const onNavigate = (pathname) => {
