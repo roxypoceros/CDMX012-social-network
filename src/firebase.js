@@ -17,8 +17,9 @@ export const firebaseConfig = {
   // Initialize Firebase
   export const app = initializeApp(firebaseConfig);
   export const database = getDatabase(app);
+  export const auth = getAuth();
   const db = getFirestore();
-  const auth = getAuth();
+  
 
 export const publishPost = async (posting) => {
     //set(ref(database, "posts")), {posting}

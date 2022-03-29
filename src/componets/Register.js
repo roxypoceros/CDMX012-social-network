@@ -64,12 +64,8 @@ export const Register = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         alert('user created!');
+        onNavigate('/feed');
       })
-
-      const configuracion = {
-        url: 'http://localhost:3000'
-      }
-      alert ('bienvenido')
     /* Para verificar cuenta con vinculo al correo
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {

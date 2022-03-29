@@ -1,5 +1,6 @@
 import { onNavigate } from "../main.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+import { auth } from "../firebase.js"
 
 
 export const Feed = () => {
@@ -21,8 +22,7 @@ export const Feed = () => {
   
   
     buttonSignOut.addEventListener('click', (e) => {
-  
-      const auth = getAuth();
+
       signOut(auth)
         .then(() => {
           // Signed out successful
