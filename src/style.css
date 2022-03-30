@@ -25,7 +25,8 @@ h1{
 h3{
   font-family: 'Lato', sans-serif;
   color: white;
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
+  font-weight: 300;
 }
 
 .logoDiv{
@@ -53,6 +54,7 @@ button{
   cursor: pointer;
   display: inline-flex;
   font-family: 'Lato', sans-serif;
+  font-weight: 300;
   font-size: 25px;
   font-weight: bolder;
   justify-content: center;
@@ -126,6 +128,7 @@ i {
   cursor: pointer;
   display: inline-flex;
   font-family: 'Lato', sans-serif;
+  font-weight: 300;
   font-size: 16px;
   font-weight: bolder;
   justify-content: center;
@@ -154,6 +157,7 @@ input{
   font-weight: bold;
   padding: 10px 20px;
   font-family: 'Lato', sans-serif;
+  font-weight: 300;
   font-size: 20px;
   color: #101010;
   margin-bottom: 20px;
@@ -196,7 +200,7 @@ input{
   border:none;
   resize: none;
   font-family:'Lato', sans-serif;
-  font-size: 20px;
+  font-weight: 300;
   padding: 20px;
   color: #fff;
 }
@@ -210,6 +214,7 @@ input{
 	align-items: flex-start;
   border:none;
   font-family:'Lato', sans-serif;
+  font-weight: 300;
   padding: 20px;
   font-size: 20px;
   }
@@ -234,6 +239,7 @@ input{
   cursor: pointer;
   display: inline-flex;
   font-family: 'Lato', sans-serif;
+  font-weight: 300;
   font-size: 25px;
   font-weight: bolder;
   justify-content: center;
@@ -277,4 +283,46 @@ button:disabled {
   margin-left: auto;
   margin-top: 25px;
   margin-bottom: 40px;
+}
+
+.logoDivSmallFeed{
+  width: 145px;
+  margin: 15px;
+  display: block;
+  margin-left: auto;
+ }
+
+ #signoutButton{
+  width: 150px;
+  height: 10px;
+  background-color: transparent;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  color: #F98158;
+  display: block;
+  margin-left: auto;
+  margin-right: 8px;
+  margin-top: 5px;
+}
+
+.containerPosts {
+  background-color:#DEDEDE;
+  margin: 20px;
+}
+
+.containerPosts h3 {
+  color: #1E1E1E;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  padding: 5px;
+}
+
+.containerPosts h4 {
+  color: #1E1E1E;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  padding: 5px;
 }

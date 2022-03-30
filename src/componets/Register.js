@@ -39,11 +39,22 @@ export const Register = () => {
   labelEmail.textContent = 'EMAIL';
   const inputEmail = document.createElement('input');
   inputEmail.setAttribute('id', 'mailregister');
+
+  const emailMessage = document.createElement('h4');
+  emailMessage.setAttribute('id', 'emailMessage');
+
   const labelPassword = document.createElement('h3');
   labelPassword.textContent = 'CONTRASEÑA';
   const inputPassword = document.createElement('input');
   inputPassword.setAttribute('id', 'password');
   inputPassword.setAttribute('type', 'password');
+
+  const passwordMessage = document.createElement('h4');
+  passwordMessage.setAttribute('id', 'passwordMessage');
+
+  const errorMessage = document.createElement('h4');
+  errorMessage.setAttribute('id', 'errorFirebase');
+
   const buttonHome = document.createElement('button');
   buttonHome.setAttribute('id', 'homeButton');
   const buttonSubmit = document.createElement('button');
@@ -75,7 +86,7 @@ export const Register = () => {
         window.localStorage.setItem('emailForSignIn', email);
         // ...
       })*/
-    .catch((error) => {
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert('error message');
