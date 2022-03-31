@@ -7,14 +7,10 @@ export const Publish = () => {
     iconLogo.classList.add('iconAction');
     iconLogo.src = 'https://i.imgur.com/OHcUaOT.png';
 
-    const iconHome = document.createElement('img');
-    iconHome.classList.add('iconArrow');
-    iconHome.src = '';
 
     const publishDiv = document.createElement('div');
     publishDiv.setAttribute('id', 'publishDiv');
-    const titlePost = document.createElement('h3');
-    titlePost.textContent = 'NUEVA PUBLICACIÓN';
+    
 
     const centralContainer = document.createElement('section');
     centralContainer.setAttribute('id', 'centralContainer');
