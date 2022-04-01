@@ -22,4 +22,4 @@ onAuthStateChanged(auth, user => {
   } else {
     console.log('No user');
 }
-});*/
+});
