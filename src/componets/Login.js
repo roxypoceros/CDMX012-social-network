@@ -1,6 +1,8 @@
-import { onNavigate } from "../main.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword,
+} from 'https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js';
+
+import { onNavigate } from '../main.js';
 
 export const Login = () => {
   const logoDivSmall = document.createElement('img');
@@ -8,10 +10,10 @@ export const Login = () => {
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
   const loginDiv = document.createElement('div');
   loginDiv.setAttribute('id', 'loginDiv');
-  
-  //const inputUser = document.createElement('input');
-  //const labelUserName = document.createElement('h3');
-  //labelUserName.textContent = 'USUARIO';
+
+  // const inputUser = document.createElement('input');
+  // const labelUserName = document.createElement('h3');
+  // labelUserName.textContent = 'USUARIO';
 
   const labelEmail = document.createElement('h3');
   labelEmail.textContent = 'EMAIL';
@@ -32,13 +34,13 @@ export const Login = () => {
   const buttonLogin = document.createElement('button');
   buttonLogin.textContent = 'Ingresa';
 
-  const buttonGmail = document.createElement('button')
-  buttonGmail.classList.add('buttonGmail')
+  const buttonGmail = document.createElement('button');
+  buttonGmail.classList.add('buttonGmail');
   buttonGmail.innerHTML = '<i class="fa-brands fa-google"></i>INICIA SESIÓN CON GOOGLE';
-  buttonGmail.setAttribute('id', 'btnGmail')
-  //buttonGmail.textContent = 'INICIA SESIÓN CON GOOGLE'
+  buttonGmail.setAttribute('id', 'btnGmail');
+  // buttonGmail.textContent = 'INICIA SESIÓN CON GOOGLE'
 
-  //inputUser.placeholder = 'Ingresa tu Usuario';
+  // inputUser.placeholder = 'Ingresa tu Usuario';
   inputEmail.placeholder = 'Ingresa tu Email';
   inputPassword.placeholder = 'Ingresa tu contraseña';
 
@@ -68,32 +70,68 @@ export const Login = () => {
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
       });
-  })
+  });
 
-  buttonLogin.addEventListener('click', (e) => {
-    let email = document.getElementById('mailregister').value;
-    let password = document.getElementById('password').value;
-    //let username = document.getElementById('username').value;
+  buttonLogin.addEventListener('click', () => {
+    const email = document.getElementById('mailregister').value;
+    const password = document.getElementById('password').value;
+    // let username = document.getElementById('username').value;
 
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        alert('User logged');
+        user;
+        // alert('User logged');
         onNavigate('/feed');
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
-      });
+        const { code, message } = error; // destructuracion extrae un valor del objeto
+        let text = message;
 
+        switch (code) {
+          case 'auth/invalid-email': {
+            text = 'Email inválido';
+            break;
+          }
+          case 'auth/wrong-password': {
+            text = 'Contraseña incorrecta';
+            break;
+          }
+          case 'auth/user-not-found': {
+            text = 'Email no registrado';
+            break;
+          }
+          case 'auth/internal-error': {
+            text = 'Ingresa tu contraseña';
+            break;
+          }
+          case 'auth/too-many-requests': {
+            text = 'Cuenta temporalmente suspendida, se realizaron demasiados intentos, intenta más tarde';
+            break;
+          }
+          default: break;
+        }
+
+        // eslint-disable-next-line no-undef
+        swal({
+          text,
+          button: 'Cerrar',
+        });
+      });
   });
 
-  loginDiv.append(logoDivSmall, labelEmail, inputEmail, labelPassword, inputPassword, buttonGmail, buttonLogin, buttonHome);
+  loginDiv.append(
+    logoDivSmall,
+    labelEmail,
+    inputEmail,
+    labelPassword,
+    inputPassword,
+    buttonGmail,
+    buttonLogin,
+    buttonHome,
+  );
   return loginDiv;
-
 };
-

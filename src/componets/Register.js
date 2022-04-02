@@ -1,7 +1,6 @@
-import { onNavigate } from "../main.js";
-import { firebaseConfig, app, database } from "../firebase.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js';
+import { onNavigate } from '../main.js';
+import { firebaseConfig, app, database } from '../firebase.js';
 
 const auth = getAuth();
 /* Para verificar cuenta con vinculo al correo dependiendo del dispositivo
@@ -20,8 +19,7 @@ const actionCodeSettings = {
     minimumVersion: '12'
   },
   dynamicLinkDomain: 'example.page.link'
-};*/
-
+}; */
 
 export const Register = () => {
   const logoDivSmall = document.createElement('img');
@@ -35,6 +33,8 @@ export const Register = () => {
   const nodoh2 = document.createElement('h2');
   const inputUserName = document.createElement('input');
   inputUserName.setAttribute('id', 'username');
+  let x = document.getElementById('username'); // .required lo necesitamos para que sea obligatorio el campo de ususario
+
   const labelEmail = document.createElement('h3');
   labelEmail.textContent = 'EMAIL';
   const inputEmail = document.createElement('input');
@@ -67,9 +67,9 @@ export const Register = () => {
 
   // Registrar Usuario con Email
   buttonSubmit.addEventListener('click', (e) => {
-    let email = document.getElementById('mailregister').value;
-    let password = document.getElementById('password').value;
-    let username = document.getElementById('username').value;
+    const email = document.getElementById('mailregister').value;
+    const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
 
     createUserWithEmailAndPassword(auth, email, password, username)
       .then((userCredential) => {
@@ -77,31 +77,75 @@ export const Register = () => {
         alert('user created!');
         onNavigate('/feed');
       })
-    /* Para verificar cuenta con vinculo al correo
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
-        window.localStorage.setItem('emailForSignIn', email);
-        // ...
-      })*/
+      /* Para verificar cuenta con vinculo al correo
+      sendSignInLinkToEmail(auth, email, actionCodeSettings)
+        .then(() => {
+          // The link was successfully sent. Inform the user.
+          // Save the email locally so you don't need to ask the user for it again
+          // if they open the link on the same device.
+          window.localStorage.setItem('emailForSignIn', email);
+          // ...
+        }) */
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert('error message');
-        // ..
-      })
+        const { code, message } = error; // destructuracion extrae un valor del objeto
+        let text = message;
 
-});
+        switch (code) {
+          case 'auth/invalid-email': {
+            text = 'Email inválido';
+            break;
+          }
+          case 'auth/wrong-password': {
+            text = 'Contraseña incorrecta';
+            break;
+          }
+          case 'auth/email-already-exists': {
+            text = 'El email ya se encuentra registrado, ingresa otro';
+            break;
+          }
+          case 'auth/email-already-in-use': {
+            text = 'El email ya se encuentra registrado, ingresa otro';
+            break;
+          }
+          case 'auth/weak-password': {
+            text = 'Ingresa una contraseña de 6 o mas caracteres';
+            break;
+          }
+          case 'auth/internal-error': {
+            text = 'Ingresa los datos requeridos ';
+            break;
+          }
+          case 'auth/missing-email': {
+            text = 'Ingresa un email';
+            break;
+          }
+          default: break;
+        }
 
-//Regresa a Home
-buttonHome.addEventListener('click', () => {
-  onNavigate('/');
-});
+        // eslint-disable-next-line no-undef
+        swal({
+          text,
+          button: 'Cerrar',
+        });
+      });
+  });
 
+  // Regresa a Home
+  buttonHome.addEventListener('click', () => {
+    onNavigate('/');
+  });
 
-RegisterDiv.append(logoDivSmall, nodoh2, labelUserName, inputUserName, labelEmail, inputEmail, labelPassword, inputPassword, buttonSubmit, buttonHome);
+  RegisterDiv.append(logoDivSmall,
+    nodoh2,
+    labelUserName,
+    inputUserName,
+    x,
+    labelEmail,
+    inputEmail,
+    labelPassword,
+    inputPassword,
+    buttonSubmit,
+    buttonHome);
 
-return RegisterDiv;
+  return RegisterDiv;
 };

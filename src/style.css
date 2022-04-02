@@ -331,3 +331,18 @@ button:disabled {
 a:visited, a:hover, a:active {
   color: inherit;
 }
+
+.swal-button {
+  padding: 7px 19px;
+  border-radius: 100px;
+  background-color: #39e312;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+  font-family: 'Lato', sans-serif;
+
+}
+
+.swal-overlay {
+  background-color: rgba(43, 165, 137, 0.45);
+}
