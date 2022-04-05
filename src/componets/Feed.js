@@ -1,6 +1,6 @@
 import { onNavigate } from "../main.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { auth, getPosts, onSnapshot, db, collection } from "../firebase.js"
+import { auth, getPosts, onSnapshot, db, collection, publishPost } from "../firebase.js"
 
 export const Feed = () => {
 
@@ -66,11 +66,24 @@ export const Feed = () => {
         });
   
     });
-    
 
+    buttonPublish.addEventListener('click', (e) => {
+      const posting = inputPost
+      publishPost(posting.value)
+      .then(() => {
+        inputPost.value = ''
+        //console.log('se publicó')
+      })
+      .catch(() => {
+        //console.error('no se publicó')
+      })
+  //aquí se deberían de obtener los datos de firestore para mandarle el contenido del post a su respectivo usuario
+    });
+    
     window.addEventListener('DOMContentLoaded', async () => {
       //const querySnapshot = await getPosts()
       onSnapshot(collection(db, 'posts'), (querySnapshot) => {
+        
         let html = ''
         querySnapshot.forEach(doc => {
           const posts = doc.data()
@@ -78,6 +91,7 @@ export const Feed = () => {
             <div class = "containerPosts">
               <h4>${posts.email}</h4>
               <h3>${posts.text}</h3>
+              <h4>${posts.datecreate}</h4>
             </div>
           `
           //console.log(doc.data())

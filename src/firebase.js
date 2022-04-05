@@ -19,25 +19,29 @@ export const firebaseConfig = {
   export const database = getDatabase(app);
   export const auth = getAuth();
   const db = getFirestore();
+
   
 
 export const publishPost = async (posting) => {
     //set(ref(database, "posts")), {posting}
     //console.log (posting)
     //setDoc(doc(database, "posts"), {post: posting});
-    await addDoc(collection(db, 'posts'),{
+    await addDoc(collection(db, 'posts'), {
       text: posting,
+      createdAt: ServerTimestamp(),
       datecreate: Timestamp.now(),
       dateupdate: Timestamp.now(),
       email: auth.currentUser.email,
-
     })
       }
 
+
+
 export const getPosts = () => getDocs(collection (db, 'posts'));
 export const onGetPosts = () => console.log('onGetPosts')
+
 export {
   onSnapshot,
   db,
-  collection
+  collection,
 }
