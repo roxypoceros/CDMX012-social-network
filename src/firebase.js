@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
-import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 
@@ -39,6 +39,7 @@ export const publishPost = async (posting) => {
 
 export const getPosts = () => getDocs(collection (db, 'posts'));
 export const onGetPosts = () => console.log('onGetPosts')
+export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 
 export {
   onSnapshot,
