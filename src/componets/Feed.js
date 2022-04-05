@@ -1,6 +1,6 @@
 import { onNavigate } from "../main.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query } from "../firebase.js"
+import { auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost } from "../firebase.js"
 
 export const Feed = () => {
 
@@ -84,7 +84,6 @@ export const Feed = () => {
     //const querySnapshot = await getPosts()
     const q = query(collection(db, 'posts'), orderBy("datecreate", "desc"));
     onSnapshot(q, (querySnapshot) => {
-      console.log(querySnapshot)
       let html = ''
       querySnapshot.forEach(doc => {
         const posts = doc.data()
@@ -92,11 +91,19 @@ export const Feed = () => {
             <div class = "containerPosts">
               <h4>${posts.email}</h4>
               <h3>${posts.text}</h3>
+              <button class="btnDelete" data-id='${doc.id}'><i class="fa-solid fa-trash-can"></i></button>
             </div>
           `
         //console.log(doc.data())
       });
       containerPosts.innerHTML = html
+      const buttonsDelete = containerPosts.querySelectorAll('.btnDelete')
+      buttonsDelete.forEach(btn => {
+        btn.addEventListener('click', ({target: {dataset}}) => {
+          deletePost(dataset.id)
+        })
+        
+      });
     })
 
   });
