@@ -1,6 +1,9 @@
 import { onNavigate } from "../main.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
-import { auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost } from "../firebase.js"
+import { auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updatePost } from "../firebase.js"
+
+let editPost = false;
+let id = '';
 
 export const Feed = () => {
 
@@ -23,7 +26,7 @@ export const Feed = () => {
   iconUser.innerHTML = '<i class="fa-solid fa-circle-user"></i>';
   const titlePost = document.createElement('h3');
   titlePost.classList.add('titlePost')
-  titlePost.textContent = 'HOLA, LUIS G';
+  titlePost.textContent = 'HOLA,';
   userContainer.appendChild(iconUser);
   userContainer.appendChild(titlePost);
 
@@ -39,7 +42,6 @@ export const Feed = () => {
   buttonPublish.textContent = 'Publicar';
   postContainer.appendChild(inputPost)
   postContainer.appendChild(buttonPublish)
-
 
   const buttonSignOut = document.createElement('button');
   buttonSignOut.textContent = 'Cerrar Sesión';
@@ -80,7 +82,7 @@ export const Feed = () => {
     //aquí se deberían de obtener los datos de firestore para mandarle el contenido del post a su respectivo usuario
   });
 
-  window.addEventListener('DOMContentLoaded', async () => {
+
     //const querySnapshot = await getPosts()
     const q = query(collection(db, 'posts'), orderBy("datecreate", "desc"));
     onSnapshot(q, (querySnapshot) => {
@@ -89,24 +91,44 @@ export const Feed = () => {
         const posts = doc.data()
         html += `
             <div class = "containerPosts">
-              <h4>${posts.email}</h4>
+              <h4>Publicado por: ${posts.email}</h4>
               <h3>${posts.text}</h3>
+              <section class = "containerButtons">
               <button class="btnDelete" data-id='${doc.id}'><i class="fa-solid fa-trash-can"></i></button>
+              <button class="btnEdit" data-id='${doc.id}'><i class="fa-solid fa-pencil"></i></i></button>
+              </section>
             </div>
           `
         //console.log(doc.data())
       });
       containerPosts.innerHTML = html
+      
       const buttonsDelete = containerPosts.querySelectorAll('.btnDelete')
       buttonsDelete.forEach(btn => {
-        btn.addEventListener('click', ({target: {dataset}}) => {
-          deletePost(dataset.id)
+        btn.addEventListener('click', function (dataset) {
+          const id = this.getAttribute('data-id');
+          deletePost(id);
         })
-        
       });
-    })
+      
+      const buttonsEdit = containerPosts.querySelectorAll('.btnEdit')
+      buttonsEdit.forEach(btn => {
+        btn.addEventListener('click', async function (dataset) {
+          const id = this.getAttribute('data-id');
+          const snapPost = await getPost(id);
+          const post = snapPost.data()
+          inputPost.value = post.text
+          /*if (editPost = true) {
+            console.log(inputPost.value = post.text)
+          } else {
+            console.log(updatePost())
+          }*/
+          buttonPublish.innerText = 'Actualizar'
+          
+        })
+      });
 
-  });
+    })
 
 
   //hacer una funcion que tome los parámetros del datecreate y ordenar los posts de manera descendente
