@@ -347,15 +347,29 @@ a:visited, a:hover, a:active {
   background-color: rgba(43, 165, 137, 0.45);
 }
 
-.btnDelete {
+.containerButtons {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+
+}
+
+.btnDelete,
+.btnEdit {
   background-color: transparent;
-  width: 20%;
+  width: 10%;
   height: 0%;
   padding: 0%;
   margin: 0%;
-  display: block;
-  margin-left: auto;
 }
-.fa-trash-can{
+
+.fa-trash-can,
+.fa-pencil{
   font-size: 20px;
+  background-color: #D1A85B;
+  border-radius: 50%;
+}
+
+.fa-trash-can{
+  opacity: 40%;
 }
