@@ -25,15 +25,18 @@ export const Register = () => {
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmall');
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
+
   const RegisterDiv = document.createElement('div');
   RegisterDiv.setAttribute('id', 'RegisterDiv');
+
   const labelUserName = document.createElement('h3');
   labelUserName.textContent = 'USUARIO';
 
   const nodoh2 = document.createElement('h2');
+  
   const inputUserName = document.createElement('input');
   inputUserName.setAttribute('id', 'username');
-  let x = document.getElementById('username'); // .required lo necesitamos para que sea obligatorio el campo de ususario
+  let x = document.getElementById('username');
 
   const labelEmail = document.createElement('h3');
   labelEmail.textContent = 'EMAIL';
