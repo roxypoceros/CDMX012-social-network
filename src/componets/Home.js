@@ -1,5 +1,6 @@
 import { onNavigate } from "../main.js";
-document.body.style.backgroundColor = '#101010';
+// color de background negro
+//document.body.style.backgroundColor = '#101010';
 export const Home = () => {
   const HomeDiv = document.createElement('div');
   HomeDiv.classList.add('homeDiv');

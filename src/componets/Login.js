@@ -33,6 +33,8 @@ export const Login = () => {
 
   const buttonLogin = document.createElement('button');
   buttonLogin.textContent = 'Ingresa';
+  buttonLogin.setAttribute('id', 'loginButton');
+
 
   const buttonGmail = document.createElement('button');
   buttonGmail.classList.add('buttonGmail');
