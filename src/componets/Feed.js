@@ -126,10 +126,12 @@ export const Feed = () => {
           } */
         buttonPublish.innerText = 'Actualizar'
           
+        
       })
     });
 
   })
+
 
 
   // hacer una funcion que tome los parámetros del datecreate y ordenar los posts de manera descendente
