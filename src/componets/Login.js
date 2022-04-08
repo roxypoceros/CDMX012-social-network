@@ -4,6 +4,7 @@ import {
 
 import { onNavigate } from '../main.js';
 
+http://localhost:3000
 export const Login = () => {
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmall');
@@ -124,6 +125,7 @@ export const Login = () => {
         });
       });
   });
+
 
   loginDiv.append(
     logoDivSmall,

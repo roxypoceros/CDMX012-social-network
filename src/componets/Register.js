@@ -38,6 +38,7 @@ export const Register = () => {
   inputUserName.setAttribute('id', 'username');
   let x = document.getElementById('username');
 
+
   const labelEmail = document.createElement('h3');
   labelEmail.textContent = 'EMAIL';
   const inputEmail = document.createElement('input');
@@ -133,7 +134,7 @@ export const Register = () => {
       });
   });
 
-  // Regresa a Home
+  // Regresar a Home
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
   });

@@ -29,4 +29,6 @@ export const Home = () => {
   HomeDiv.append(nodoh1, buttonLogIn, buttonSignIn);
   return HomeDiv;
 
+  
+
 };
