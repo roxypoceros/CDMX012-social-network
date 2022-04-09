@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
 import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 
 // Your web app's Firebase configuration
@@ -19,6 +19,7 @@ export const firebaseConfig = {
   export const database = getDatabase(app);
   export const auth = getAuth();
   const db = getFirestore();
+
 
 export const publishPost = async (posting) => {
     //set(ref(database, "posts")), {posting}
@@ -40,9 +41,11 @@ export const getPost = (id) => getDoc(doc(db, 'posts', id));
 export const updatePost =(id, newPost) => updateDoc(doc(db, 'posts', id), newPost)
 
 export {
+  signOut,
   onSnapshot,
   db,
   collection,
   orderBy,
   query,
+  onAuthStateChanged,
 }

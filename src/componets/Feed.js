@@ -1,35 +1,55 @@
-import { signOut } from 'https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js';
 import { onNavigate } from '../main.js';
 import {
-  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updatePost,
+  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updatePost, signOut, onAuthStateChanged,
 } from '../firebase.js';
 
+
+//Editando posts. Pendiente
 const editPost = false;
 const id = '';
 
+
 export const Feed = () => {
+  const userContainer = document.createElement('section');
+  //Obteniendo datos de usuario logueado
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User  
+    const displayName = user.displayName;
+    const photoURL = user.photoURL;
+    userContainer.setAttribute('id', 'userContainer');
+    const iconUser = document.createElement('img');
+    iconUser.classList.add('iconUser');
+    iconUser.src = `${photoURL}`;
+    const titlePost = document.createElement('h3');
+    titlePost.classList.add('titlePost');
+    titlePost.textContent = `¡HOLA, ${displayName}!`;
+    userContainer.appendChild(iconUser);
+    userContainer.appendChild(titlePost);
+  } else if (user) {
+    const email = user.email
+    const photoURL = user.photoURL;
+    userContainer.setAttribute('id', 'userContainer');
+    const iconUser = document.createElement('img');
+    iconUser.classList.add('iconUser');
+    iconUser.src = `${photoURL}`;
+    const titlePost = document.createElement('h3');
+    titlePost.classList.add('titlePost');
+    titlePost.textContent = `¡HOLA, ${email}!`;
+    userContainer.appendChild(iconUser);
+    userContainer.appendChild(titlePost);
+  } else {
+
+  }
+});
+
+
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmallFeed');
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
   const feedDiv = document.createElement('div');
   feedDiv.setAttribute('id', 'feedDiv');
-  // Icono para cerrar sesión
-  /* const iconHome = document.createElement('figure');
-  iconHome.classList.add('iconArrow');
-  iconHome.innerHTML = '<a href="/"  title="Regresa a Home"><i class="fa-solid fa-circle-xmark"></i></a>'; */
-
-  // container posts
-
-  const userContainer = document.createElement('section');
-  userContainer.setAttribute('id', 'userContainer');
-  const iconUser = document.createElement('figure');
-  iconUser.classList.add('iconUser');
-  iconUser.innerHTML = '<i class="fa-solid fa-circle-user"></i>';
-  const titlePost = document.createElement('h3');
-  titlePost.classList.add('titlePost');
-  titlePost.textContent = 'HOLA,';
-  userContainer.appendChild(iconUser);
-  userContainer.appendChild(titlePost);
 
   // textarea posts
   const postContainer = document.createElement('section');
