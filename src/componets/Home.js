@@ -13,7 +13,6 @@ export const Home = () => {
   const buttonLogIn = document.createElement('button');
   buttonLogIn.classList.add('buttonLogIn');
   buttonLogIn.textContent = 'Inicia Sesión';
-  buttonLogIn.textContent = 'Iniciar Sesión';
   buttonLogIn.addEventListener('click', () => {
     onNavigate ('/login');
   });
