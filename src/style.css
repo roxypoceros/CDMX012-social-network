@@ -329,7 +329,6 @@ color: inherit;
   font-size: 20px !important;
   font-family: 'Lato', sans-serif;
   color: white;
-
 }
  */
 
@@ -398,7 +397,64 @@ body{
   background-image: url('https://i.imgur.com/k8q7qvo.jpg');
   height: 100%;
   background-size: cover;
-
   }
+.homeDiv{
+  margin-top: 10%;
+  width: 50%;
+  position: absolute;
+  margin-left: 50%;
+
+}
+.logoDiv{
+  width: 30%;
+  margin: 50px;
+  text-align: right;
+  }
+
+#loginDiv{
+  margin-top: 3%;
+  width: 50%;
+  position: absolute;
+  margin-left: 50%;
+}
+.logoDivSmall{
+  width: 30%;
+  margin-top: 45px;
+  margin-bottom: 40px;
+  }
+
+  #RegisterDiv{
+    margin-top: 3%;
+    width: 50%;
+    position: absolute;
+    margin-left: 50%;
+  }
+
+
+  #postContainer, .containerPosts{
+  width: 50%;
+   margin-left: 50%;
+   }
+
+#inputPost{
+  width:100% ;
+}
+
+
+/* h5 para textos de posts */
+h5, h4, .post, .post::placeholder {
+  font-size: 16px;
+   }
+}
+
+.buttonPublish{
+  width: 100px;
+  height: 40px;
+  font-size: 15px;
+  margin-right: 0px;
+}
+
+#userContainer{
+  margin-left: 5%;
 
 }
