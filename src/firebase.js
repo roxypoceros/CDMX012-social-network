@@ -20,7 +20,7 @@ export const firebaseConfig = {
   export const auth = getAuth();
   const db = getFirestore();
 
-
+//Funcion para publicar posts
 export const publishPost = async (posting) => {
     //set(ref(database, "posts")), {posting}
     //console.log (posting)
@@ -33,12 +33,18 @@ export const publishPost = async (posting) => {
       email: auth.currentUser.email,
     })
       }
-
+//Funciones para los posts
 export const getPosts = () => getDocs(collection (db, 'posts'));
-//export const onGetPosts = () => console.log('onGetPosts')
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
 export const updatePost =(id, newPost) => updateDoc(doc(db, 'posts', id), newPost)
+
+//Funcion para sacar usuario logueado
+export const getUserLogged = () => {
+  const user = auth.currentUser;
+ // const userName = user.displayName;
+  return user;
+};
 
 export {
   signOut,
