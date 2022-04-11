@@ -41,9 +41,9 @@ export const updatePost =(id, newPost) => updateDoc(doc(db, 'posts', id), newPos
 
 //Funcion para sacar usuario logueado
 export const getUserLogged = () => {
-  const user = getAuth().currentUser;
-  const userName = user.displayName;
-  return userName;
+  const user = auth.currentUser;
+ // const userName = user.displayName;
+  return user;
 };
 
 export {

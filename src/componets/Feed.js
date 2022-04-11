@@ -8,7 +8,6 @@ import {
 const editPost = false;
 const id = '';
 
-
 export const Feed = () => {
   const userContainer = document.createElement('section');
   //Obteniendo datos de usuario logueado
@@ -113,13 +112,17 @@ export const Feed = () => {
 //// Se tendría que identificar el id de los posteos que hizo el usuario loggueado
     const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
     //condicion si usuario esta logueado, mostrar botones
-      onSnapshot(q, (user, querySnapshot) => {
+      onSnapshot(q, (querySnapshot) => {
         let html = '';
-        if (user === getUserLogged()) {
+        let usuario=getUserLogged()
+          console.log(usuario.email)
           querySnapshot.forEach((doc) => {
             const posts = doc.data();
-            html += `
-                  <div class = "containerEditDelete">
+            console.log({posts})
+            if(usuario.email===posts.email){
+                  
+              html += `
+                  <div class = "containerPosts">
                     <h4>Publicado por: ${posts.email}</h4>
                     <h5>${posts.text}</h5>
                     <section class = "containerButtons">
@@ -128,7 +131,17 @@ export const Feed = () => {
                     </section>
                   </div>
                 `;
-          const buttonsDelete = containerEditDelete.querySelectorAll('.btnDelete');
+            }else{
+              html += `
+                  <div class = "containerPosts">
+                    <h4>Publicado por: ${posts.email}</h4>
+                    <h5>${posts.text}</h5>
+                  </div>
+                `;
+            }
+            
+               
+          const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
           buttonsDelete.forEach((btn) => {
             btn.addEventListener('click', function (dataset) {
               const id = this.getAttribute('data-id');
@@ -136,8 +149,8 @@ export const Feed = () => {
             });
             // console.log(doc.data())
           });
-  ////////Segundo bloqueo, tampoco podemos editar según el usuario logueado... 
-          const buttonsEdit = containerEditDelete.querySelectorAll('.btnEdit');
+
+          const buttonsEdit = containerPosts.querySelectorAll('.btnEdit');
           buttonsEdit.forEach((btn) => {
             // eslint-disable-next-line indent
               btn.addEventListener('click', async function (dataset) {
@@ -145,33 +158,11 @@ export const Feed = () => {
               const snapPost = await getPost(id);
               const post = snapPost.data();
               inputPost.value = post.text;
-              /* if (editPost = true) {
-                  console.log(inputPost.value = post.text)
-                } else {
-                  console.log(updatePost())
-                } */
               buttonPublish.innerText = 'Actualizar';
             });
           });
-          containerEditDelete.innerHTML = html;
+          containerPosts.innerHTML = html;
           });
-
-      } else {
-        onSnapshot(q, (querySnapshot) => {
-          let html = '';
-            querySnapshot.forEach((doc) => {
-              let posts = doc.data();
-              html += `
-                    <div class = "containerPosts">
-                      <h4>Publicado por: ${posts.email}</h4>
-                      <h5>${posts.text}</h5>
-                    </div>
-                  `;
-              // console.log(doc.data())
-            });
-            containerPosts.innerHTML = html;
-          });
-      };
       
     });
 
