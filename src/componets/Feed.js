@@ -1,12 +1,9 @@
 import { onNavigate } from '../main.js';
 import {
-  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updatePost, signOut, onAuthStateChanged, getUserLogged
+  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updateDoc, signOut, onAuthStateChanged, getUserLogged, setDoc, updatePost,
 } from '../firebase.js';
 
-
 //Editando posts. Pendiente
-const editPost = false;
-const id = '';
 
 export const Feed = () => {
   const userContainer = document.createElement('section');
@@ -113,13 +110,14 @@ export const Feed = () => {
     const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
     //condicion si usuario esta logueado, mostrar botones
       onSnapshot(q, (querySnapshot) => {
+        console.log({querySnapshot})
         let html = '';
-        let usuario=getUserLogged()
-          console.log(usuario.email)
+        let user = getUserLogged()
+          console.log(user.email)
           querySnapshot.forEach((doc) => {
             const posts = doc.data();
-            console.log({posts})
-            if(usuario.email===posts.email){
+            //console.log({posts})
+            if(user.email===posts.email){
                   
               html += `
                   <div class = "containerPosts">
@@ -131,6 +129,7 @@ export const Feed = () => {
                     </section>
                   </div>
                 `;
+
             }else{
               html += `
                   <div class = "containerPosts">
@@ -138,30 +137,47 @@ export const Feed = () => {
                     <h5>${posts.text}</h5>
                   </div>
                 `;
-            }
-            
-               
+            }containerPosts.innerHTML = html;
+          
           const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
-          buttonsDelete.forEach((btn) => {
-            btn.addEventListener('click', function (dataset) {
-              const id = this.getAttribute('data-id');
-              deletePost(id);
-            });
-            // console.log(doc.data())
-          });
+            buttonsDelete.forEach((btn) => {
+              btn.addEventListener('click', () => {
+                const id = this.getAttribute('data-id');
+                deletePost(id);
+              });
+              });
 
           const buttonsEdit = containerPosts.querySelectorAll('.btnEdit');
+          let editPost = false;
           buttonsEdit.forEach((btn) => {
             // eslint-disable-next-line indent
-              btn.addEventListener('click', async function (dataset) {
+              btn.addEventListener('click', async function () {
               const id = this.getAttribute('data-id');
               const snapPost = await getPost(id);
               const post = snapPost.data();
-              inputPost.value = post.text;
+              console.log(snapPost)
+              const newPost = post.text
+              inputPost.value = newPost
               buttonPublish.innerText = 'Actualizar';
+              editPost = true;
+              if (editPost) {
+                //console.log(post.text)
+                await updateDoc(getPost, {
+                  text: newPost,
+                });
+              } else{
+                console.log(post.text);
+                /* await updateDoc(getPost, {
+                  'text': post.text.value,
+              }); */
+                editPost = false;
+              }
+              
+              console.log(editPost)
+              //buttonPublish.innerText = 'Actualizar';
             });
           });
-          containerPosts.innerHTML = html;
+
           });
       
     });
