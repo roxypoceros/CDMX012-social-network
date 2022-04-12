@@ -166,10 +166,13 @@ export const Feed = () => {
                 buttonUpdate.addEventListener('click', () => {
                   const newPost = inputPost.value
                   updatePost(id, newPost)
+                  postContainer.appendChild(buttonPublish);
+                  postContainer.removeChild(buttonUpdate)
                 })
                 
               } else{
                 //editPost = false;
+                
               }
               
               console.log(editPost)

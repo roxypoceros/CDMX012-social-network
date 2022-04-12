@@ -64,7 +64,8 @@ margin-bottom: 40px;
 
 #homeButton, #registerButton, 
 .buttonLogIn, .buttonSignIn,
-#loginButton, .buttonGmail, .buttonPublish{
+#loginButton, .buttonGmail, .buttonPublish,
+.buttonUpdate{
 margin-bottom: 20px;
 width: 300px;
 height: 64px;
@@ -238,7 +239,8 @@ display: block;
 margin-left: 0px;
 } */
 
-.buttonPublish {
+.buttonPublish,
+.buttonUpdate {
 width: 200px;
 height: 50px;
 font-size: 20px;
@@ -247,6 +249,7 @@ margin-left: auto;
 margin-top: 10px;
 margin-right: 30px;
 }
+
 
 
 /* button:hover,
@@ -447,11 +450,12 @@ h5, h4, .post, .post::placeholder {
    }
 }
 
-.buttonPublish{
+.buttonPublish,
+.buttonUpdate{
   width: 100px;
   height: 40px;
   font-size: 15px;
-  margin-right: 0px;
+  margin-right: 20px;
 }
 
 #userContainer{
