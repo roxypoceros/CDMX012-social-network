@@ -33,7 +33,7 @@ export const publishPost = async (posting) => {
 export const getPosts = () => getDocs(collection (db, 'posts'));
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
-export const updatePost = (id) => updateDoc(doc(db, 'posts', id))
+//export const updatePost = (id) => updateDoc(doc(db, 'posts', id))
 
 
 //Funcion para sacar usuario logueado
@@ -42,6 +42,20 @@ export const getUserLogged = () => {
  // const userName = user.displayName;
   return user;
 };
+
+// Funcion para actualizar el posteo
+export const updatePost = async (id, newPost) => {
+  const user = auth.currentUser;
+  if (user) {
+    const collectionRef = doc(db, 'posts', id);
+    console.log(collectionRef)
+    await updateDoc(docRef, {
+      text: newPost
+    });
+  }
+};
+
+
 
 export {
   signOut,

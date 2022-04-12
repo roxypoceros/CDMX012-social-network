@@ -1,6 +1,6 @@
 import { onNavigate } from '../main.js';
 import {
-  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, updateDoc, signOut, onAuthStateChanged, getUserLogged, setDoc, updatePost,
+  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost,
 } from '../firebase.js';
 
 //Editando posts. Pendiente
@@ -58,6 +58,7 @@ export const Feed = () => {
   const buttonPublish = document.createElement('button');
   buttonPublish.classList.add('buttonPublish');
   buttonPublish.textContent = 'Publicar';
+
   postContainer.appendChild(inputPost);
   postContainer.appendChild(buttonPublish);
 
@@ -92,15 +93,13 @@ export const Feed = () => {
       });
   });
 
-  buttonPublish.addEventListener('click', (e) => {
+  buttonPublish.addEventListener('click', () => {
     const posting = inputPost;
     publishPost(posting.value)
       .then(() => {
         inputPost.value = '';
-        // console.log('se publicó')
       })
       .catch(() => {
-        // console.error('no se publicó')
       });
   });
 
@@ -110,7 +109,6 @@ export const Feed = () => {
     const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
     //condicion si usuario esta logueado, mostrar botones
       onSnapshot(q, (querySnapshot) => {
-        console.log({querySnapshot})
         let html = '';
         let user = getUserLogged()
           console.log(user.email)
@@ -141,7 +139,7 @@ export const Feed = () => {
           
           const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
             buttonsDelete.forEach((btn) => {
-              btn.addEventListener('click', () => {
+              btn.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
                 deletePost(id);
               });
@@ -154,23 +152,24 @@ export const Feed = () => {
               btn.addEventListener('click', async function () {
               const id = this.getAttribute('data-id');
               const snapPost = await getPost(id);
-              const post = snapPost.data();
-              console.log(snapPost)
-              const newPost = post.text
-              inputPost.value = newPost
-              buttonPublish.innerText = 'Actualizar';
+              const post = snapPost.data().text;
+              inputPost.value = post
               editPost = true;
               if (editPost) {
-                //console.log(post.text)
-                await updateDoc(getPost, {
-                  text: newPost,
-                });
+
+                postContainer.removeChild(buttonPublish)
+                const buttonUpdate = document.createElement('button');
+                buttonUpdate.classList.add('buttonUpdate');
+                buttonUpdate.textContent = 'Actualizar';
+                postContainer.appendChild(buttonUpdate);
+
+                buttonUpdate.addEventListener('click', () => {
+                  const newPost = inputPost.value
+                  updatePost(id, newPost)
+                })
+                
               } else{
-                console.log(post.text);
-                /* await updateDoc(getPost, {
-                  'text': post.text.value,
-              }); */
-                editPost = false;
+                //editPost = false;
               }
               
               console.log(editPost)
