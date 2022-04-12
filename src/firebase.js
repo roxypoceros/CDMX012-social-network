@@ -49,7 +49,7 @@ export const updatePost = async (id, newPost) => {
   if (user) {
     const collectionRef = doc(db, 'posts', id);
     console.log(collectionRef)
-    await updateDoc(docRef, {
+    await updateDoc(collectionRef, {
       text: newPost
     });
   }
