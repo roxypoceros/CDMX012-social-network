@@ -1,14 +1,12 @@
 import { onNavigate } from '../main.js';
 import {
-  auth, getPosts, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost,
+  auth, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost,
 } from '../firebase.js';
 
-//Editando posts. Pendiente
 
 export const Feed = () => {
   const userContainer = document.createElement('section');
-  //Obteniendo datos de usuario logueado
-  //No podemos mostrar el display name si el usuario no está logueado con gmail
+  //Obteniendo datos y foto de usuario logueado
   onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -42,7 +40,7 @@ export const Feed = () => {
   }
 });
 
-
+  //Inicia página de Feed
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmallFeed');
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
@@ -64,13 +62,16 @@ export const Feed = () => {
   const buttonSignOut = document.createElement('button');
   buttonSignOut.textContent = 'Cerrar Sesión';
   buttonSignOut.setAttribute('id', 'signoutButton');
-
+  //Area que imprime los posteos
   const containerPosts = document.createElement('section');
-  containerPosts.setAttribute('id', 'containerPosts');
-
+  containerPosts.setAttribute('id', 'containerPosts'); 
   const containerEditDelete = document.createElement('section');
   containerEditDelete.setAttribute('id', 'containerEditDelete');
-
+  //Area que imprime los likes y el publicado por
+  const containerLikes = document.createElement('section');
+  containerLikes.setAttribute('id', 'containerLikes');
+  containerLikes.classList.add('containerLikes')
+  containerLikes.innerHTML = '<i class="fa-regular fa-star"></i>';
 
 
   buttonSignOut.addEventListener('click', () => {
@@ -111,9 +112,7 @@ export const Feed = () => {
    
   });
 
-  // const querySnapshot = await getPosts()
-//////////Primer bloqueo, no podemos editar ni borrar, según el usuario logueado
-//// Se tendría que identificar el id de los posteos que hizo el usuario loggueado
+  //Función para publicar y borrar posts
     const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
     //condicion si usuario esta logueado, mostrar botones
       onSnapshot(q, (querySnapshot) => {
@@ -180,22 +179,16 @@ export const Feed = () => {
                 
               } else{
                 //editPost = false;
-                
               }
               
               console.log(editPost)
               //buttonPublish.innerText = 'Actualizar';
             });
           });
-
           });
-      
     });
 
-  
 
-  // hacer una funcion que tome los parámetros del datecreate y ordenar los posts de manera descendente
-
-  feedDiv.append(logoDivSmall, buttonSignOut, userContainer, postContainer, containerPosts, containerEditDelete);
+  feedDiv.append(logoDivSmall, buttonSignOut, userContainer, postContainer, containerLikes, containerPosts, containerEditDelete);
   return feedDiv;
 };
