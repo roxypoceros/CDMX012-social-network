@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
-import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 
@@ -22,12 +22,8 @@ export const firebaseConfig = {
 
 //Funcion para publicar posts
 export const publishPost = async (posting) => {
-    //set(ref(database, "posts")), {posting}
-    //console.log (posting)
-    //setDoc(doc(database, "posts"), {post: posting});
     await addDoc(collection(db, 'posts'), {
       text: posting,
-      //createdAt: Timestamp.now(),
       datecreate: Timestamp.now(),
       dateupdate: Timestamp.now(),
       email: auth.currentUser.email,
@@ -37,7 +33,8 @@ export const publishPost = async (posting) => {
 export const getPosts = () => getDocs(collection (db, 'posts'));
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
-export const updatePost =(id, newPost) => updateDoc(doc(db, 'posts', id), newPost)
+export const updatePost = (id) => updateDoc(doc(db, 'posts', id))
+
 
 //Funcion para sacar usuario logueado
 export const getUserLogged = () => {
@@ -54,4 +51,6 @@ export {
   orderBy,
   query,
   onAuthStateChanged,
+  updateDoc,
+  setDoc,
 }
