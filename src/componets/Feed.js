@@ -13,8 +13,9 @@ export const Feed = () => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User  
-    const displayName = user.displayName;
-    const photoURL = user.photoURL;
+    const displayName = user.displayName || '';
+    const photoURL = user.photoURL || './img/icono-usuario.png';
+    console.log (photoURL)
     userContainer.setAttribute('id', 'userContainer');
     const iconUser = document.createElement('img');
     iconUser.classList.add('iconUser');
@@ -26,7 +27,7 @@ export const Feed = () => {
     userContainer.appendChild(titlePost);
   } else if (user) {
     const email = user.email
-    const photoURL = user.photoURL;
+    const photoURL = user.photoURL ||'./img/icono-usuario.png';
     userContainer.setAttribute('id', 'userContainer');
     const iconUser = document.createElement('img');
     iconUser.classList.add('iconUser');
@@ -58,10 +59,8 @@ export const Feed = () => {
   const buttonPublish = document.createElement('button');
   buttonPublish.classList.add('buttonPublish');
   buttonPublish.textContent = 'Publicar';
-
   postContainer.appendChild(inputPost);
   postContainer.appendChild(buttonPublish);
-
   const buttonSignOut = document.createElement('button');
   buttonSignOut.textContent = 'Cerrar Sesión';
   buttonSignOut.setAttribute('id', 'signoutButton');
@@ -95,12 +94,18 @@ export const Feed = () => {
 
   buttonPublish.addEventListener('click', () => {
     const posting = inputPost;
-    publishPost(posting.value)
+    console.log(posting.value.length)
+    if (posting.value.length >= 1) {
+      publishPost(posting.value)
       .then(() => {
         inputPost.value = '';
       })
       .catch(() => {
       });
+    } else {
+      alert ('no se puede');
+    }
+   
   });
 
   // const querySnapshot = await getPosts()
