@@ -61,8 +61,10 @@ export const Register = () => {
     createUserWithEmailAndPassword(auth, email, password, username)
       .then((userCredential) => {
         const user = userCredential.user;
-        
-        alert('user created!');
+        swal({
+          text: 'Crea tu primer publicación',
+          button: 'Cerrar',
+        });
         onNavigate('/feed');
       })
       /* Para verificar cuenta con vinculo al correo
