@@ -103,7 +103,10 @@ export const Feed = () => {
       .catch(() => {
       });
     } else {
-      alert ('no se puede');
+      swal({
+        text: "Escribe para publicar",
+        button: 'Cerrar',
+      });
     }
    
   });
