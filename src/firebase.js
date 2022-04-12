@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
-import { doc, getDocs, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
+import { doc, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 
@@ -27,13 +27,12 @@ export const publishPost = async (posting) => {
       datecreate: Timestamp.now(),
       dateupdate: Timestamp.now(),
       email: auth.currentUser.email,
+      likes: [],
     })
       }
-//Funciones para los posts
-export const getPosts = () => getDocs(collection (db, 'posts'));
+//Funciones para borar y obtener los posts
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
-//export const updatePost = (id) => updateDoc(doc(db, 'posts', id))
 
 
 //Funcion para sacar usuario logueado
@@ -53,6 +52,13 @@ export const updatePost = async (id, newPost) => {
       text: newPost
     });
   }
+};
+
+//Funcion para los likes
+export const likes = (id) => {
+  const email = auth.currentUser.email;
+  const collectionRef = doc(db, 'posts', id);
+  return updateDoc(collectionRef, { likes: arrayUnion(email) });
 };
 
 
