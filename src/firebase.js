@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-app.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-database.js";
-import { doc, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
+import { doc, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
 
@@ -13,23 +13,23 @@ export const firebaseConfig = {
   messagingSenderId: "623035228212",
   appId: "1:623035228212:web:47ea296ba1f702fe41aa61"
 };
-  
-  // Initialize Firebase
-  export const app = initializeApp(firebaseConfig);
-  export const database = getDatabase(app);
-  export const auth = getAuth();
-  const db = getFirestore();
+
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+export const database = getDatabase(app);
+export const auth = getAuth();
+const db = getFirestore();
 
 //Funcion para publicar posts
 export const publishPost = async (posting) => {
-    await addDoc(collection(db, 'posts'), {
-      text: posting,
-      datecreate: Timestamp.now(),
-      dateupdate: Timestamp.now(),
-      email: auth.currentUser.email,
-      likes: [],
-    })
-      }
+  await addDoc(collection(db, 'posts'), {
+    text: posting,
+    datecreate: Timestamp.now(),
+    dateupdate: Timestamp.now(),
+    email: auth.currentUser.email,
+    likes: [],
+  })
+}
 //Funciones para borar y obtener los posts
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
@@ -38,7 +38,7 @@ export const getPost = (id) => getDoc(doc(db, 'posts', id));
 //Funcion para sacar usuario logueado
 export const getUserLogged = () => {
   const user = auth.currentUser;
- // const userName = user.displayName;
+  // const userName = user.displayName;
   return user;
 };
 
@@ -55,10 +55,18 @@ export const updatePost = async (id, newPost) => {
 };
 
 //Funcion para los likes
-export const likes = (id) => {
+export const likes = async (id) => {
   const email = auth.currentUser.email;
   const collectionRef = doc(db, 'posts', id);
-  return updateDoc(collectionRef, { likes: arrayUnion(email) });
+  const res = await updateDoc(collectionRef, { likes: arrayUnion(email) });
+  return res;
+};
+
+export const dislikes = async (id) => {
+  const email = auth.currentUser.email;
+  const collectionRef = doc(db, 'posts', id);
+  const res = await updateDoc(collectionRef, { likes: arrayRemove(email) });
+  return res;
 };
 
 
