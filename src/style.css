@@ -308,6 +308,7 @@ margin-top: 5px;
 }
 
 .containerPosts {
+  position: relative;
 background-color:#DEDEDE;
 margin: 15px;
 padding: 10px;
@@ -380,7 +381,8 @@ justify-content: space-between;
 }
 
 .btnDelete,
-.btnEdit {
+.btnEdit,
+.like1 {
 background-color: transparent;
 border: none;
 width: 10%;
@@ -390,16 +392,33 @@ margin: 0%;
 }
 
 .fa-trash-can,
-.fa-pencil{
+.fa-pencil,
+.fa-star{
 font-size: 20px;
 background-color: #D1A85B;
 border-radius: 50%;
 padding: 10px;
 }
 
+.fa-star{
+  background: none;
+  color: #D1A85B;
+}
+
 .fa-trash-can{
 opacity: 40%;
 }
+
+.containerLikes1{
+position: absolute;
+top: -5px;
+right: 52px;
+}
+
+.fa-star{
+position: absolute;
+}
+
 
 @media only screen and (min-width: 768px){
 

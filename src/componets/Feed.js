@@ -1,46 +1,45 @@
 import { onNavigate } from '../main.js';
 import {
-  auth, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost,
+  auth, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost, likes, dislikes,
 } from '../firebase.js';
-
 
 export const Feed = () => {
   const userContainer = document.createElement('section');
-  //Obteniendo datos y foto de usuario logueado
+  // Obteniendo datos y foto de usuario logueado
   onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User  
-    const displayName = user.displayName || '';
-    const photoURL = user.photoURL || './img/icono-usuario.png';
-    console.log (photoURL)
-    userContainer.setAttribute('id', 'userContainer');
-    const iconUser = document.createElement('img');
-    iconUser.classList.add('iconUser');
-    iconUser.src = `${photoURL}`;
-    const titlePost = document.createElement('h3');
-    titlePost.classList.add('titlePost');
-    titlePost.textContent = `¡HOLA, ${displayName}!`;
-    userContainer.appendChild(iconUser);
-    userContainer.appendChild(titlePost);
-  } else if (user) {
-    const email = user.email
-    const photoURL = user.photoURL ||'./img/icono-usuario.png';
-    userContainer.setAttribute('id', 'userContainer');
-    const iconUser = document.createElement('img');
-    iconUser.classList.add('iconUser');
-    iconUser.src = `${photoURL}`;
-    const titlePost = document.createElement('h3');
-    titlePost.classList.add('titlePost');
-    titlePost.textContent = `¡HOLA, ${email}!`;
-    userContainer.appendChild(iconUser);
-    userContainer.appendChild(titlePost);
-  } else {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const displayName = user.displayName || '';
+      const photoURL = user.photoURL || './img/icono-usuario.png';
+      console.log(photoURL);
+      userContainer.setAttribute('id', 'userContainer');
+      const iconUser = document.createElement('img');
+      iconUser.classList.add('iconUser');
+      iconUser.src = `${photoURL}`;
+      const titlePost = document.createElement('h3');
+      titlePost.classList.add('titlePost');
+      titlePost.textContent = `¡HOLA, ${displayName}!`;
+      userContainer.appendChild(iconUser);
+      userContainer.appendChild(titlePost);
+    } else if (user) {
+      const email = user.email;
+      const photoURL = user.photoURL || './img/icono-usuario.png';
+      userContainer.setAttribute('id', 'userContainer');
+      const iconUser = document.createElement('img');
+      iconUser.classList.add('iconUser');
+      iconUser.src = `${photoURL}`;
+      const titlePost = document.createElement('h3');
+      titlePost.classList.add('titlePost');
+      titlePost.textContent = `¡HOLA, ${email}!`;
+      userContainer.appendChild(iconUser);
+      userContainer.appendChild(titlePost);
+    } else {
 
-  }
-});
+    }
+  });
 
-  //Inicia página de Feed
+  // Inicia página de Feed
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmallFeed');
   logoDivSmall.src = 'https://i.imgur.com/RKPm1dL.png';
@@ -62,17 +61,11 @@ export const Feed = () => {
   const buttonSignOut = document.createElement('button');
   buttonSignOut.textContent = 'Cerrar Sesión';
   buttonSignOut.setAttribute('id', 'signoutButton');
-  //Area que imprime los posteos
+  // Area que imprime los posteos
   const containerPosts = document.createElement('section');
-  containerPosts.setAttribute('id', 'containerPosts'); 
+  containerPosts.setAttribute('id', 'containerPosts');
   const containerEditDelete = document.createElement('section');
   containerEditDelete.setAttribute('id', 'containerEditDelete');
-  //Area que imprime los likes y el publicado por
-  const containerLikes = document.createElement('section');
-  containerLikes.setAttribute('id', 'containerLikes');
-  containerLikes.classList.add('containerLikes')
-  containerLikes.innerHTML = '<i class="fa-regular fa-star"></i>';
-
 
   buttonSignOut.addEventListener('click', () => {
     onNavigate('/');
@@ -95,100 +88,147 @@ export const Feed = () => {
 
   buttonPublish.addEventListener('click', () => {
     const posting = inputPost;
-    console.log(posting.value.length)
+    console.log(posting.value.length);
     if (posting.value.length >= 1) {
       publishPost(posting.value)
-      .then(() => {
-        inputPost.value = '';
-      })
-      .catch(() => {
-      });
+        .then(() => {
+          inputPost.value = '';
+        })
+        .catch(() => {
+        });
     } else {
       swal({
-        text: "Escribe para publicar",
+        text: 'Escribe para publicar',
         button: 'Cerrar',
       });
     }
-   
   });
 
-  //Función para publicar y borrar posts
-    const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
-    //condicion si usuario esta logueado, mostrar botones
-      onSnapshot(q, (querySnapshot) => {
-        let html = '';
-        let user = getUserLogged()
-          console.log(user.email)
-          querySnapshot.forEach((doc) => {
-            const posts = doc.data();
-            //console.log({posts})
-            if(user.email===posts.email){
-                  
-              html += `
+  // Función para publicar y borrar posts
+  const q = query(collection(db, 'posts'), orderBy('datecreate', 'desc'));
+  // condicion si usuario esta logueado, mostrar botones
+  onSnapshot(q, (querySnapshot) => {
+    let html = '';
+    const user = getUserLogged();
+    console.log(user.email);
+    querySnapshot.forEach((doc) => {
+      const posts = doc.data();
+      // console.log({posts})
+      if (user.email === posts.email) {
+        html += `
                   <div class = "containerPosts">
                     <h4>Publicado por: ${posts.email}</h4>
                     <h5>${posts.text}</h5>
+                    <section class = "containerLikes1">
+                    <button class="like1" data-id='${doc.id}'><i class="fa-regular fa-star"></i></button>
+                    </section>
                     <section class = "containerButtons">
                     <button class="btnDelete" data-id='${doc.id}'><i class="fa-solid fa-trash-can"></i></button>
                     <button class="btnEdit" data-id='${doc.id}'><i class="fa-solid fa-pencil"></i></i></button>
                     </section>
                   </div>
                 `;
-
-            }else{
-              html += `
+      } else {
+        html += `
                   <div class = "containerPosts">
                     <h4>Publicado por: ${posts.email}</h4>
                     <h5>${posts.text}</h5>
+                    <section class = "containerLikes1">
+                    <button class="like1" data-id='${doc.id}'><i class="fa-regular fa-star"></i></button>
+                    </section>
                   </div>
                 `;
-            }containerPosts.innerHTML = html;
-          
-          const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
-            buttonsDelete.forEach((btn) => {
-              btn.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
-                deletePost(id);
-              });
-              });
+      } containerPosts.innerHTML = html;
 
-          const buttonsEdit = containerPosts.querySelectorAll('.btnEdit');
-          let editPost = false;
-          buttonsEdit.forEach((btn) => {
-            // eslint-disable-next-line indent
-              btn.addEventListener('click', async function () {
-              const id = this.getAttribute('data-id');
-              const snapPost = await getPost(id);
-              const post = snapPost.data().text;
-              inputPost.value = post
-              editPost = true;
-              if (editPost) {
+      const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
+      buttonsDelete.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const id = this.getAttribute('data-id');
+          deletePost(id);
+        });
+      });
 
-                postContainer.removeChild(buttonPublish)
-                const buttonUpdate = document.createElement('button');
-                buttonUpdate.classList.add('buttonUpdate');
-                buttonUpdate.textContent = 'Actualizar';
-                postContainer.appendChild(buttonUpdate);
+      const like1 = containerPosts.querySelectorAll('.like1');
+      like1.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const id = this.getAttribute('data-id');
+          likes(id);
+        });
+      });
 
-                buttonUpdate.addEventListener('click', () => {
-                  const newPost = inputPost.value
-                  updatePost(id, newPost)
-                  postContainer.appendChild(buttonPublish);
-                  postContainer.removeChild(buttonUpdate)
-                })
-                
-              } else{
-                //editPost = false;
-              }
-              
-              console.log(editPost)
-              //buttonPublish.innerText = 'Actualizar';
+
+
+      const btnlike = containerPosts.querySelectorAll('.like1');
+      // const outline = false;
+      btnlike.forEach((btn) => {
+        btn.addEventListener('click', async function () {
+          const id = this.getAttribute('data-id');
+          const snapPost = await getPost(id);
+          const post = snapPost.data();
+          const countLike = post.likes.length;
+          const existsLike = post.likes.includes(getUserLogged().email);
+
+          if (!existsLike) {
+            this.innerHTML = '<i class="fa-regular fa-star">' + countLike + '</i>';
+            likes(id);
+          } else {
+            this.innerHTML = '<i class="fa-solid fa-star">' + countLike + '</i>';
+           // dislikes(id);
+          }
+
+          // console.log(existsLike);
+          /* outline = true;
+          if (outline) {
+            postContainer.removeChild(like1);
+            const solidLike = document.getElementsByClassName('like1');
+            solidLike.innerHTML = '<i class="fa-solid fa-star"></i>';
+            solidLike.classList.toggle('like1');
+
+            like1.addEventListener('click', () => {
+              const newPost = like1.value;
+              updatePost(id, newPost);
+              postContainer.appendChild(like1);
+              postContainer.removeChild(solidLike);
             });
-          });
-          });
+          } else {
+          } */
+        });
+      });
+
+      const buttonsEdit = containerPosts.querySelectorAll('.btnEdit');
+      let editPost = false;
+      buttonsEdit.forEach((btn) => {
+        // eslint-disable-next-line indent
+        btn.addEventListener('click', async function () {
+          const id = this.getAttribute('data-id');
+          const snapPost = await getPost(id);
+          const post = snapPost.data().text;
+          inputPost.value = post;
+          editPost = true;
+          if (editPost) {
+            postContainer.removeChild(buttonPublish);
+            const buttonUpdate = document.createElement('button');
+            buttonUpdate.classList.add('buttonUpdate');
+            buttonUpdate.textContent = 'Actualizar';
+            postContainer.appendChild(buttonUpdate);
+
+            buttonUpdate.addEventListener('click', () => {
+              const newPost = inputPost.value;
+              updatePost(id, newPost);
+              postContainer.appendChild(buttonPublish);
+              postContainer.removeChild(buttonUpdate);
+            });
+          } else {
+            // editPost = false;
+          }
+
+          console.log(editPost);
+          // buttonPublish.innerText = 'Actualizar';
+        });
+      });
     });
+  });
 
-
-  feedDiv.append(logoDivSmall, buttonSignOut, userContainer, postContainer, containerLikes, containerPosts, containerEditDelete);
+  feedDiv.append(logoDivSmall, buttonSignOut, userContainer, postContainer, containerPosts, containerEditDelete);
   return feedDiv;
 };
