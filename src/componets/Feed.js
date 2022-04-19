@@ -110,17 +110,19 @@ export const Feed = () => {
   onSnapshot(q, (querySnapshot) => {
     let html = '';
     const user = getUserLogged();
-    console.log(user.email);
     querySnapshot.forEach((doc) => {
       const posts = doc.data();
-      // console.log({posts})
+      const countLike = posts.likes
+      //si tiene mas de un like entonces imprímelo en pantalla
+console.log({doc})
+
       if (user.email === posts.email) {
         html += `
                   <div class = "containerPosts">
                     <h4>Publicado por: ${posts.email}</h4>
                     <h5>${posts.text}</h5>
-                    <section class = "containerLikes1">
-                    <button class="like1" data-id='${doc.id}'><i class="fa-regular fa-star"></i></button>
+                    <section id = "containerLikes" class = "containerLikes1">
+                    <button class="like1" data-id='${doc.id}'><i class="fa-solid fa-star"> ${countLike.length} </i></button>
                     </section>
                     <section class = "containerButtons">
                     <button class="btnDelete" data-id='${doc.id}'><i class="fa-solid fa-trash-can"></i></button>
@@ -133,8 +135,8 @@ export const Feed = () => {
                   <div class = "containerPosts">
                     <h4>Publicado por: ${posts.email}</h4>
                     <h5>${posts.text}</h5>
-                    <section class = "containerLikes1">
-                    <button class="like1" data-id='${doc.id}'><i class="fa-regular fa-star"></i></button>
+                    <section id = "containerLikes" class = "containerLikes1">
+                    <button class="like1" data-id='${doc.id}'><i class="fa-solid fa-star"> ${countLike.length} </i></button>
                     </section>
                   </div>
                 `;
@@ -147,16 +149,6 @@ export const Feed = () => {
           deletePost(id);
         });
       });
-
-      const like1 = containerPosts.querySelectorAll('.like1');
-      like1.forEach((btn) => {
-        btn.addEventListener('click', function () {
-          const id = this.getAttribute('data-id');
-          likes(id);
-        });
-      });
-
-
 
       const btnlike = containerPosts.querySelectorAll('.like1');
       // const outline = false;
