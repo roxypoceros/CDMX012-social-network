@@ -165,7 +165,7 @@ console.log({doc})
             likes(id);
           } else {
             this.innerHTML = '<i class="fa-solid fa-star">' + countLike + '</i>';
-           // dislikes(id);
+            dislikes(id);
           }
 
           // console.log(existsLike);
