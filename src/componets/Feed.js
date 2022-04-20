@@ -2,14 +2,12 @@ import { onNavigate } from '../main.js';
 import {
   auth, onSnapshot, db, collection, publishPost, orderBy, query, deletePost, getPost, signOut, onAuthStateChanged, getUserLogged, updatePost, likes, dislikes,
 } from '../firebase.js';
-
+//Saludo al usuario logueado
 export const Feed = () => {
   const userContainer = document.createElement('section');
   // Obteniendo datos y foto de usuario logueado
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
       const displayName = user.displayName || '';
       const photoURL = user.photoURL || './img/icono-usuario.png';
       console.log(photoURL);
@@ -35,10 +33,8 @@ export const Feed = () => {
       userContainer.appendChild(iconUser);
       userContainer.appendChild(titlePost);
     } else {
-
     }
   });
-
   // Inicia página de Feed
   const logoDivSmall = document.createElement('img');
   logoDivSmall.classList.add('logoDivSmallFeed');
@@ -61,12 +57,14 @@ export const Feed = () => {
   const buttonSignOut = document.createElement('button');
   buttonSignOut.textContent = 'Cerrar Sesión';
   buttonSignOut.setAttribute('id', 'signoutButton');
+
   // Area que imprime los posteos
   const containerPosts = document.createElement('section');
   containerPosts.setAttribute('id', 'containerPosts');
   const containerEditDelete = document.createElement('section');
   containerEditDelete.setAttribute('id', 'containerEditDelete');
 
+  //Cerrando sesión
   buttonSignOut.addEventListener('click', () => {
     onNavigate('/');
   });
@@ -86,6 +84,7 @@ export const Feed = () => {
       });
   });
 
+  // Listener para publicaciones
   buttonPublish.addEventListener('click', () => {
     const posting = inputPost;
     console.log(posting.value.length);
@@ -114,8 +113,6 @@ export const Feed = () => {
       const posts = doc.data();
       const countLike = posts.likes
       //si tiene mas de un like entonces imprímelo en pantalla
-console.log({doc})
-
       if (user.email === posts.email) {
         html += `
                   <div class = "containerPosts">
@@ -142,6 +139,7 @@ console.log({doc})
                 `;
       } containerPosts.innerHTML = html;
 
+    //Listener para Borrar publicación de usuario logueado  
       const buttonsDelete = containerPosts.querySelectorAll('.btnDelete');
       buttonsDelete.forEach((btn) => {
         btn.addEventListener('click', function () {
@@ -150,6 +148,7 @@ console.log({doc})
         });
       });
 
+    //Listener para dar, quitar like y mostrar total de likes
       const btnlike = containerPosts.querySelectorAll('.like1');
       // const outline = false;
       btnlike.forEach((btn) => {
@@ -167,30 +166,13 @@ console.log({doc})
             this.innerHTML = '<i class="fa-solid fa-star">' + countLike + '</i>';
             dislikes(id);
           }
-
-          // console.log(existsLike);
-          /* outline = true;
-          if (outline) {
-            postContainer.removeChild(like1);
-            const solidLike = document.getElementsByClassName('like1');
-            solidLike.innerHTML = '<i class="fa-solid fa-star"></i>';
-            solidLike.classList.toggle('like1');
-
-            like1.addEventListener('click', () => {
-              const newPost = like1.value;
-              updatePost(id, newPost);
-              postContainer.appendChild(like1);
-              postContainer.removeChild(solidLike);
-            });
-          } else {
-          } */
         });
       });
 
+      //Listener para Editar publicación de usuario logueado
       const buttonsEdit = containerPosts.querySelectorAll('.btnEdit');
       let editPost = false;
       buttonsEdit.forEach((btn) => {
-        // eslint-disable-next-line indent
         btn.addEventListener('click', async function () {
           const id = this.getAttribute('data-id');
           const snapPost = await getPost(id);
@@ -214,8 +196,6 @@ console.log({doc})
             // editPost = false;
           }
 
-          console.log(editPost);
-          // buttonPublish.innerText = 'Actualizar';
         });
       });
     });
