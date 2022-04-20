@@ -1,4 +1,5 @@
-//import { onNavigate } from "../main.js";
+//Este archivo nos va a servir para modularizar
+/*import { onNavigate } from "../main.js";
 import { publishPost } from "../firebase.js";
 
 
@@ -49,10 +50,10 @@ export const Publish = () => {
   /*Regresa a Home
   buttonHome.addEventListener('click', () => {
     onNavigate('/');
-  });*/
+  });
   
   
   publishDiv.append(iconLogo, iconHome, titlePost, centralContainer, buttonPublish);
   
   return publishDiv;
-  };
+  };*/

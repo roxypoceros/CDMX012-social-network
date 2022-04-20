@@ -3,8 +3,7 @@ import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-d
 import { doc, addDoc, getFirestore, Timestamp, collection, onSnapshot, orderBy, query, deleteDoc, getDoc, updateDoc, setDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-firestore.js"
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.9/firebase-auth.js";
 
-
-// Your web app's Firebase configuration
+// Firebase configuracion
 export const firebaseConfig = {
   apiKey: "AIzaSyBXVUR0wpfBpa0Vg2auGHK6qVlJoZr5sYQ",
   authDomain: "action-redsocial.firebaseapp.com",
@@ -61,15 +60,13 @@ export const likes = async (id) => {
   const res = await updateDoc(collectionRef, { likes: arrayUnion(email) });
   return res;
 };
-
+//Funcion para los quitar like
 export const dislikes = async (id) => {
   const email = auth.currentUser.email;
   const collectionRef = doc(db, 'posts', id);
   const res = await updateDoc(collectionRef, { likes: arrayRemove(email) });
   return res;
 };
-
-
 
 export {
   signOut,
